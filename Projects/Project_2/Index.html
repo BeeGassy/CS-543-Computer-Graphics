@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Im A Drawing Boi</title>
+    <h1 style= "padding-left: 0; padding-right: 0; margin: auto; display: block; width: 400px;">Project 2</h1>
+
+    <script id="vshader" type="x-shader/x-vertex">
+
+            attribute vec4 vPosition;
+            uniform vec4 vColor;
+            uniform float vPointSize;
+            uniform mat4 projMatrix;
+            uniform mat4 modelMatrix;
+            uniform mat4 viewMatrix;
+            varying vec4 fColor;
+
+            void main() {
+                // 4 dimensional point, x, y, z and translation number thing
+                // position is from -1 to 1 and must be a float
+                // gl_Position = vec4(0.0, 0.0, 0.0, 1.0);
+                gl_Position = projMatrix * viewMatrix * modelMatrix * vPosition;
+                //gl_Position = vPosition;
+
+                // point of size 10
+                // point size must be a float
+                // gl_PointSize = 10.0
+                gl_PointSize = vPointSize;
+
+
+                // Color is made red
+                //fColor = vec4(1.0, 0.0, 0.0, 1.0);
+                fColor = vColor;
+
+            }
+        </script>
+
+    <script id="fshader" type="x-shader/x-fragment">
+        precision mediump float;
+        varying vec4 fColor;
+
+            void main() {
+                // Color is hard coded to black
+                //gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+                gl_FragColor = fColor;
+            }
+        </script>
+
+    <script src="lib/webgl-utils.js"></script>
+    <script src="lib/initShaders.js"></script>
+    <script src="lib/MV.js"></script>
+
+    <script src="nose.js"></script>
+
+</head>
+
+<body onload="main()">
+
+<canvas id="webgl"  style="border:2px
+                            solid #000000;
+                            padding-left: 0;
+                            padding-right: 0;
+                            margin: auto;
+                            display: block;
+                            width: 400px;"
+        width="400" height="400">
+
+</canvas>
+
+<form id="fileupload" style="padding-left: 0; padding-right: 0; margin: auto; display: block; width: 400px;" enctype="multipart/form-data">
+    <input type="file" id="files" accept = ".ply" name="files[]" />
+</form>
+
+</body>
+</html>
